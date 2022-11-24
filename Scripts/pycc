@@ -1,0 +1,3 @@
+#!d:\pr\green-bg\scripts\python.exe
+from numba.pycc import main
+main()
