@@ -63,7 +63,7 @@ def green_pixel(img, output_path):
     # Green color in BGR
     color = (0, 0, 0)
     radius = 2
-    step = 1
+    step = 10
     # Line thickness of 9 px
     thickness = -1
 
@@ -105,4 +105,5 @@ def green_pixel(img, output_path):
     cv2.imshow('f', frame)
 
     cv2.waitKey(0)
-    cv2.imwrite(output_path, frame)
+    # cv2.imwrite(output_path, frame)
+green_pixel(img, 0)

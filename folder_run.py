@@ -7,11 +7,23 @@ dir_load = 'D:/pr/chromaKay/chromaKey/image1'
 
 
 def black_bg(input_image, output_image):
-    with open(input_image, 'rb') as i:
-        with open(output_image, 'wb') as o:
-            input_img = i.read()
-            output_img = remove(input_img)
-            o.write(output_img)
+    """
+    Матирует прозрачным любой фон
+    :param input_image: адрес фото для обработки
+    :param output_image: адрес для сохранения обрезанного фото
+    :return:
+    """
+
+    image = cv2.imread(input_image)
+    output = remove(image)
+
+    convert = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
+    result = cv2.cvtColor(convert, cv2.COLOR_BGR2RGB)
+
+    cv2.imshow('resDk', result)
+
+    cv2.waitKey(0)
+    cv2.imwrite(output_image, result)
 
 
 def green_pixel(input_image, output_image):
@@ -67,18 +79,27 @@ def green_pixel(input_image, output_image):
     cv2.imwrite(output_image, frame)
 
 
-def folder_run(dir, green=False):
-    dir_remove_bg = dir + "/whithoutBG"
+def folder_run(folder, green=False):
+    """
+    По указанной папке ищет изоброжения и передает в обработку функции в зависимости от фона:
+    green=False (По умолчанию) библиотекой remBG
+    green=True пиксельное перекрашивание оттенков черного
+    создает папку /withoutBG и отправляет адрес для сохранения в функцию обработки фото
+    :param folder: Адрес папки для обработки
+    :param green: Использовать ли пиксельное удаление оттенков зеленого или определить фон нейронной сетью
+    :return:
+    """
+    dir_remove_bg = folder + "/withoutBG"
     try:
         os.mkdir(dir_remove_bg)
     except:
-        pass
+        print("Папка для фото уже создана")
 
     image_load = []
     count = 0
 
     print('Поиск изоброжений в папке...')
-    for filename in os.listdir(dir):
+    for filename in os.listdir(folder):
         if filename[filename.rfind(".")+1:] in ['jpg', 'JPG', 'jpeg', 'png', 'gif']:
             count += 1
             print(filename)
@@ -90,7 +111,7 @@ def folder_run(dir, green=False):
     count_bg = 0
     for img in image_load:
         count_bg += 1
-        input_image = dir + '/' + img
+        input_image = folder + '/' + img
         output_image = dir_remove_bg +'/' + img
         print("обработка фотографии", count_bg, "из", count)
         if green:
