@@ -57,7 +57,8 @@ def green_cut(img):
 
     cv2.waitKey(0)
 
-def green_pixel(img):
+
+def green_pixel(img, output_path):
 
     # Green color in BGR
     color = (0, 0, 0)
@@ -104,4 +105,4 @@ def green_pixel(img):
     cv2.imshow('f', frame)
 
     cv2.waitKey(0)
-    save = cv2.imwrite('test.jpg', frame)
+    cv2.imwrite(output_path, frame)
