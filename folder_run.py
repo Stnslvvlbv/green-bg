@@ -20,7 +20,7 @@ def black_bg(input_image, output_image):
     convert = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
     result = cv2.cvtColor(convert, cv2.COLOR_BGR2RGB)
 
-    cv2.imshow('resDk', result)
+    # cv2.imshow('resDk', result)
 
     cv2.waitKey(0)
     cv2.imwrite(output_image, result)
@@ -92,8 +92,9 @@ def folder_run(folder, green=False):
     dir_remove_bg = folder + "/withoutBG"
     try:
         os.mkdir(dir_remove_bg)
+        print("В указанной папке создана директория '/withoutBG' для сохранения обработанных фотографий")
     except:
-        print("Папка для фото уже создана")
+        print("Папка для сохранения обработанных фотографий уже существует")
 
     image_load = []
     count = 0
@@ -120,4 +121,17 @@ def folder_run(folder, green=False):
             black_bg(input_image, output_image)
 
 
-folder_run(dir_load, green=False)
+# folder_run(dir_load, green=False)
+
+if __name__ == "__main__":
+    url = ''
+    while url != 'exit':
+        print('Для выхода введите "exit"')
+        print("Для продолжения введите абсолютный адресс папки с фотографиями для удаления фона:")
+        url = input()
+        dir_load = (r"" + url).replace('\\', '/')
+        if os.path.exists(dir_load):
+            folder_run(dir_load)
+            print("Обработка найденных фотографий окончена")
+        elif url != 'exit':
+            print("По указанному адресу папка не найдена")
